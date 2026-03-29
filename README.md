@@ -9,7 +9,15 @@ This project is an AI-powered automation workflow built in n8n to help students 
 
 ## Project Objective
 
-The goal of this workflow is to automate the process of collecting scholarship information, summarizing it using AI, and storing it in a structured tracker.
+The goal of this workflow is to automate the process of collecting scholarship information, summarize it using AI, and store it in a structured tracker.
+
+---
+
+## Problem Statement
+
+Students often find scholarship information scattered across different websites and presented in long, unclear descriptions. This makes it difficult to quickly compare opportunities and stay organized.
+
+This workflow solves that by turning scholarship information into a structured, AI-assisted tracking system.
 
 ---
 
@@ -72,14 +80,18 @@ The workflow stores the following in Google Sheets:
 
 This workflow can help students automatically organize scholarship opportunities and understand them more quickly using AI-generated summaries.
 
+Example tested scholarship inputs:
+- MBZUAI Scholarship
+- University of Toronto Scholarship
+
 ---
 
 ## Files
 
-- `AI Scholarship Hunter & Tracker.json` → exported n8n workflow
+- `workflow.json` → exported n8n workflow
 - `workflow-overview.png` → full workflow screenshot
 - `ai-output.png` → example AI summary output
-- `tracker-sheet.png` → Google Sheets output
+- `tracker-sheet.png` → Google Sheets tracker output
 
 ---
 
