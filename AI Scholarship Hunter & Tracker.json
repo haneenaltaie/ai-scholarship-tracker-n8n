@@ -1,0 +1,285 @@
+{
+  "name": "AI Scholarship Hunter & Tracker",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        48,
+        0
+      ],
+      "id": "120295ae-302f-4bde-8291-2d2f2a95b3d2",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "35306fa0-9dfe-4c8a-b14e-759b7b888fb0",
+              "name": "Title",
+              "value": "University of Toronto Scholarship",
+              "type": "string"
+            },
+            {
+              "id": "ae69cb3d-938d-4bac-b4f0-e48193f846be",
+              "name": "Deadline",
+              "value": "January 15, 2026",
+              "type": "string"
+            },
+            {
+              "id": "7b45b7c5-e67f-46fd-bffa-5a312ecbac3c",
+              "name": "Link",
+              "value": "https://future.utoronto.ca",
+              "type": "string"
+            },
+            {
+              "id": "7a24b634-b5b7-4bd0-9edb-1081e1e1c2a7",
+              "name": "Description",
+              "value": "The University of Toronto offers scholarships for international and domestic students applying to undergraduate and graduate programs. Selection is based on academic excellence, leadership, extracurricular involvement, and personal achievements. Some scholarships require separate applications, while others are automatically considered during admission.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        256,
+        0
+      ],
+      "id": "3a6dd36f-effa-40a8-a8d9-58806d708632",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "=You are helping a student understand scholarships.\n\nSummarize this scholarship clearly and simply.\n\nInclude:\n- Who it is for\n- Deadline\n- Key requirements\n- Why it is useful\n\nScholarship Title: {{ $json[\"Title\"] }}\nDeadline: {{ $json[\"Deadline\"] }}\nLink: {{ $json[\"Link\"] }}\nDescription: {{ $json[\"Description\"] }}",
+        "messages": {
+          "messageValues": []
+        },
+        "batching": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chainLlm",
+      "typeVersion": 1.9,
+      "position": [
+        512,
+        0
+      ],
+      "id": "337bee8f-24da-44bf-8b4c-9e05a88464b4",
+      "name": "Basic LLM Chain"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "mode": "list",
+          "value": "gpt-5-mini"
+        },
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.3,
+      "position": [
+        768,
+        112
+      ],
+      "id": "c1ba9be4-1a1f-4ff5-b92c-a860c7087ca6",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "Zf4sNJ4ed8qvcglg",
+          "name": "n8n free OpenAI API credits"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        592,
+        -176
+      ],
+      "id": "3eb966ac-2552-4c7d-9083-22e0b8dee8b1",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1M-D2gSWQBn70MYgL_pLvxml4yGA8apMbWtfu0aAOubk",
+          "mode": "list",
+          "cachedResultName": "AI Scholarship Tracker",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1M-D2gSWQBn70MYgL_pLvxml4yGA8apMbWtfu0aAOubk/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1908113968,
+          "mode": "list",
+          "cachedResultName": "ai_google_sheets_template.csv",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1M-D2gSWQBn70MYgL_pLvxml4yGA8apMbWtfu0aAOubk/edit#gid=1908113968"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Title": "={{ $json[\"Title\"] }}",
+            "Deadline": "={{ $json[\"Deadline\"] }}",
+            "Link": "={{ $json[\"Link\"] }}",
+            "Description": "={{ $json[\"Description\"] }}",
+            "AISummary": "={{ $json[\"text\"] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Title",
+              "displayName": "Title",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Deadline",
+              "displayName": "Deadline",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Link",
+              "displayName": "Link",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Description",
+              "displayName": "Description",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "AISummary",
+              "displayName": "AISummary",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        800,
+        -176
+      ],
+      "id": "fe10e0c1-af1c-46f1-9224-3b392e20ad56",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "KKxot70uJv3Zq6YF",
+          "name": "Google Sheets account 2"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Basic LLM Chain",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Basic LLM Chain": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "fa832538-7531-4738-aa31-8f59d5ac4c77",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "43ed751d4d6cce613b4bfb966229f32aff147468018b4b6c7e368f388a692bda"
+  },
+  "id": "jPSE9UP3zAYbBLTR",
+  "tags": []
+}
